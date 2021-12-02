@@ -14,7 +14,7 @@ We grant You a nonexclusive, royalty-free right to use and modify the
 Sample Code and to reproduce and distribute the object code form of the Sample Code, provided that You agree: (i) to not use Our name, logo, or trademarks to market Your software product in which the Sample Code is embedded; 
 (ii) to include a valid copyright notice on Your software product in which the Sample Code is 
 embedded; and 
-(iii) to indemnify, hold harmless, and defend Us and Our suppliers from and against any claims or lawsuits, including attorneys’ fees, that arise or result from the use or distribution of the Sample Code.
+(iii) to indemnify, hold harmless, and defend Us and Our suppliers from and against any claims or lawsuits, including attorneysâ€™ fees, that arise or result from the use or distribution of the Sample Code.
 Please note: None of the conditions outlined in the disclaimer above will supercede the terms and conditions contained within the Premier Customer Services Description.
 **********************************************************************************************/
 IF EXISTS
@@ -40,6 +40,28 @@ ADD EVENT sqlserver.error_reported
 		, sqlserver.sql_text, sqlserver.username 
 		)
 	WHERE [error_number]=(15457) OR [error_number]=(5084)
+	)
+,ADD EVENT sqlserver.database_attached
+	(
+	ACTION
+        (
+		sqlserver.client_app_name
+		, sqlserver.client_connection_id
+		, sqlserver.database_name
+		, sqlserver.nt_username
+		, sqlserver.sql_text, sqlserver.username 
+		)
+	)
+,ADD EVENT sqlserver.database_detached
+	(
+	ACTION
+        (
+		sqlserver.client_app_name
+		, sqlserver.client_connection_id
+		, sqlserver.database_name
+		, sqlserver.nt_username
+		, sqlserver.sql_text, sqlserver.username 
+		)
 	)
 ADD TARGET package0.ring_buffer(SET max_memory = (4096))
 WITH
